@@ -5,10 +5,10 @@
 #This may also be a solution to the stable marriage problem ** UNTESTED
 import numpy as np
 
-def OneSource(ElmList):
+def createTable_1List(ElmList):
 
 	elementCount = len(ElmList)
-	print elementCount
+	
 	#debuging print
 	#print ElmList
 	
@@ -36,26 +36,27 @@ def OneSource(ElmList):
 		#We want the element that has the lowest pairing cost
 		pairCost += np.sort(ElmList[:, CrntElmt] + ElmList[CrntElmt])[1]
 		
-		#Gets the index of the pair in DesIndx to remove
+		#Gets the index of the curentElement and pairElement in DesIndx to remove
 		pairIndx = list(DesIndx).index(pairElmt)
-		
+		crntIndx = list(DesIndx).index(CrntElmt)
 		#Print Result Pair
 		print "Pairing #" + str(itteration + 1) + "	Element " + str(IndxCpy[0]) + " is paired with " + str(pairElmt)
 		
 		#Removes CrntElmt and the Pair 
 		ElmList = np.delete(ElmList, [CrntElmt, pairElmt], axis=1)
 		ElmList = np.delete(ElmList, [CrntElmt, pairElmt], axis=0)
-		IndxCpy = np.delete(IndxCpy, [0, pairIndx])
-		DesIndx = np.delete(DesIndx, [0, pairIndx])
-
+		
 		for j in range(len(DesIndx)): 
-			DesIndx[j] -= (0,1)[(DesIndx[j] > CrntElmt)] + (0,1)[(DesIndx[j] > pairIndx)]
+			DesIndx[j] -= (0,1)[(j > crntIndx)] + (0,1)[(j > pairIndx)]
+			
+		IndxCpy = np.delete(IndxCpy, [0, pairIndx])
+		DesIndx = np.delete(DesIndx, [0, pairIndx])		
 		
 		#print DesIndx
 		#print ElmList
 	print "Total Sacrifice = " + str(pairCost - elementCount) 
 	print "System Equilibium = " + str((100 * ((elementCount**2) - pairCost))/((elementCount**2) - elementCount)) + "%"
-	
-	
+
 arr2D = [[0,1,3,2],[1,0,2,3],[2,3,0,1],[1,2,3,0]]
-OneSource(np.array(arr2D))
+#arr2D = [[0,3,1,2],[1,0,2,3],[3,2,0,1],[2,1,3,0]]
+createTable_1List(np.array(arr2D))
