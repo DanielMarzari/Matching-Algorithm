@@ -47,7 +47,7 @@ def createTable_1List(ElmList):
 		ElmList = np.delete(ElmList, [CrntElmt, pairElmt], axis=0)
 		
 		for j in range(len(DesIndx)): 
-			DesIndx[j] -= (0,1)[(j > crntIndx)] + (0,1)[(j > pairIndx)]
+			DesIndx[j] -= (0,1)[(crntIndx > j)] + (0,1)[(pairIndx > j)]
 			
 		IndxCpy = np.delete(IndxCpy, [0, pairIndx])
 		DesIndx = np.delete(DesIndx, [0, pairIndx])		
